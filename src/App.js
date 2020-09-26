@@ -13,6 +13,7 @@ import Search from './components/Search.js'
 import Login from './components/Login.js'
 import Logout from './components/Logout.js'
 import UserAccount from './components/UserAccount.js'
+import Recoverpwd from './components/recoverpwd.js'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/Search"><Search /></Route>
         <Route path="/Logout"><Logout /></Route>
         <Route path="/UserAccount"><UserAccount /></Route>
+        <Route path="/Recoverpwd"><Recoverpwd /></Route>
         <Route path="/Login" render={props => (<Login {...props} />)}></Route>
       </Router >
       <Footer/>

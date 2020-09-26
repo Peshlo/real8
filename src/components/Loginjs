@@ -29,6 +29,25 @@ class Login extends Component {
 
     login() {
         if (this.state.email.trim() != "" && this.state.password != "") {
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const url = "http://203.112.144.172/API/api/Values/GetUserEmailPass?email=" + this.state.email + "&password=" + this.state.password;
+            fetch(proxyurl + url).then((res) => {
+                res.json().then((result) => {
+                    if (result) {
+                        localStorage.setItem("login", JSON.parse(result));
+                        localStorage.setItem("name", JSON.parse(result)[0].UserName);
+                        localStorage.setItem("email", JSON.parse(result)[0].EmailID);
+                        window.location.href = "/";
+                        this.props.closePopup();
+                    }
+                    else {
+                        console.warn("error" + result);
+                        this.setState({ msg: "unable to login", variant: "danger", error: !this.state.error })
+                    }
+                })
+            }).catch(() => console.log("Can’t access api response. Blocked by browser?"))
+
+
             // fetch("http://localhost:3306/api/userLogin/Login", {
             //     method: "post",
             //     headers: {
@@ -78,26 +97,44 @@ class Login extends Component {
         }
         else {
             this.props.closePopup()
-            fetch("http://localhost:3306/api/userLogin/new", {
+
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const url = "http://203.112.144.172/API/api/Values/Post";
+
+            fetch(proxyurl + url, {
                 method: "post",
                 headers: {
                     "content-type": "application/json"
                 },
-                body: JSON.stringify(this.state)
+                body: JSON.stringify({ "name": this.state.name, "password": this.state.password, "email": this.state.email })
             }).then((res) => {
                 res.json().then((result) => {
                     if (result) {
-                        localStorage.setItem("login", result);
-                        localStorage.setItem("name", result.name);
-                        localStorage.setItem("email", result.email);
-                        window.location.href = "/";
-                        this.props.closePopup();
+                        console.warn(result)
+                        if (result === "1") {
+                            fetch(proxyurl + "http://203.112.144.172/API/api/Values/GetUserEmailPass?email=" + this.state.email + "&password=" + this.state.password).then((res1) => {
+                                res1.json().then((result1) => {
+                                    if (result1) {
+                                        console.warn(result1);
+                                        localStorage.setItem("login", JSON.parse(result1));
+                                        localStorage.setItem("name", JSON.parse(result1)[0].UserName);
+                                        localStorage.setItem("email", JSON.parse(result1)[0].EmailID);
+                                        window.location.href = "/";
+                                        this.props.closePopup();
+                                    }
+                                    else {
+                                        console.warn("error" + result1);
+                                        this.setState({ msg: "unable to login", variant: "danger", error: !this.state.error })
+                                    }
+                                })
+                            }).catch(() => console.log("Can’t access api response. Blocked by browser?"))
+                        }
                     }
                     else {
                         this.setState({ msg: "unable to register", variant: "danger", error: !this.state.error })
                     }
                 })
-            })
+            }).catch(() => console.log("Can’t access api response. Blocked by browser?"))
         }
     }
 
@@ -121,7 +158,7 @@ class Login extends Component {
             localStorage.setItem("name", res.name);
             localStorage.setItem("email", res.email);
             localStorage.setItem("login", res);
-            window.location.href = "/"
+            window.location.href = "/";
         }
     }
     //end code for fb
@@ -155,13 +192,13 @@ class Login extends Component {
                         fields="name,email,picture"
                         onClick={this.componentClicked}
                         callback={this.responseFacebook}
-                        cssClass="roundButton btn btn-outline-secondary btn-block btn-lg"
+                        cssClass="roundButton btnfb btn-block"
                         icon={<FontAwesomeIcon icon={faFacebookSquare} />}
                         textButton="&nbsp;&nbsp;Continue with Facebook"
                     />
                     <br />
 
-                    <Button variant="outline-secondary" className="roundButton" size="lg" block onClick={() => this.setState({ show: true })}>Continue with email</Button>
+                    <Button className="roundButton btn btn-block" size="lg" block onClick={() => this.setState({ show: true })}>Continue with email</Button>
                     <br />
 
                     {

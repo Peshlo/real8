@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import { Button, Alert, Modal } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebookSquare, faFacebook, faFacebookF } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons'
 import FacebookLogin from 'react-facebook-login'
+import fire from "./fire.js";
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
     constructor() {
         super();
         this.state = {
-            auth: false,
             variant: "",
             isregister: false,
             error: false,
             email: "",
             password: "",
             name: "",
+            user: null,
+            fire: null,
 
             //error handel
             uEmail: "",
@@ -28,48 +31,18 @@ class Login extends Component {
     }
 
     login() {
-        if (this.state.email.trim() != "" && this.state.password != "") {
-            const proxyurl = "https://cors-anywhere.herokuapp.com/";
-            const url = "http://203.112.144.172/API/api/Values/GetUserEmailPass?email=" + this.state.email + "&password=" + this.state.password;
-            fetch(proxyurl + url).then((res) => {
-                res.json().then((result) => {
-                    if (result) {
-                        localStorage.setItem("login", JSON.parse(result));
-                        localStorage.setItem("name", JSON.parse(result)[0].UserName);
-                        localStorage.setItem("email", JSON.parse(result)[0].EmailID);
-                        window.location.href = "/";
-                        this.props.closePopup();
-                    }
-                    else {
-                        console.warn("error" + result);
-                        this.setState({ msg: "unable to login", variant: "danger", error: !this.state.error })
-                    }
-                })
-            }).catch(() => console.log("Can’t access api response. Blocked by browser?"))
-
-
-            // fetch("http://localhost:3306/api/userLogin/Login", {
-            //     method: "post",
-            //     headers: {
-            //         "content-type": "application/json"
-            //     },
-            //     body: JSON.stringify({ "email": this.state.email, "password": this.state.password })
-            // }).then((res) => {
-            //     res.json().then((result) => {
-            //         if (result.response) {
-            //             console.warn();
-            //             localStorage.setItem("login", result.response[0]);
-            //             localStorage.setItem("name", result.response[0].UserName);
-            //             localStorage.setItem("email", result.response[0].EmailID);
-            //             window.location.href = "/";
-            //             this.props.closePopup();
-            //         }
-            //         else {
-            //             console.warn("error" + result);
-            //             this.setState({ msg: "unable to login", variant: "danger", error: !this.state.error })
-            //         }
-            //     })
-            // }).catch(() => console.log("Can’t access api response. Blocked by browser?"))
+        if (this.state.email.trim() !== "" && this.state.password !== "") {
+            fire.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password).then((result) => {
+                localStorage.setItem("login", result.user);
+                localStorage.setItem("name", result.user.email);
+                localStorage.setItem("email", result.user.email);
+                this.setState({ fire: "YES" })
+                window.location.href = "/";
+                this.props.closePopup();
+            }).catch((err) => {
+                this.setState({ msg: "Invalid login", variant: "danger" });
+                this.setState({ error: !this.state.error });
+            })
         }
         else if (this.state.email.trim().length === 0) {
             this.setState({ uEmail: "Email can't be blank" });
@@ -98,43 +71,25 @@ class Login extends Component {
         else {
             this.props.closePopup()
 
-            const proxyurl = "https://cors-anywhere.herokuapp.com/";
-            const url = "http://203.112.144.172/API/api/Values/Post";
+            fire.auth().createUserWithEmailAndPassword(this.state.email.trim(), this.state.password).then((result) => {
+                this.setState({ fire: "YES" })
 
-            fetch(proxyurl + url, {
-                method: "post",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({ "name": this.state.name, "password": this.state.password, "email": this.state.email })
-            }).then((res) => {
-                res.json().then((result) => {
-                    if (result) {
-                        console.warn(result)
-                        if (result === "1") {
-                            fetch(proxyurl + "http://203.112.144.172/API/api/Values/GetUserEmailPass?email=" + this.state.email + "&password=" + this.state.password).then((res1) => {
-                                res1.json().then((result1) => {
-                                    if (result1) {
-                                        console.warn(result1);
-                                        localStorage.setItem("login", JSON.parse(result1));
-                                        localStorage.setItem("name", JSON.parse(result1)[0].UserName);
-                                        localStorage.setItem("email", JSON.parse(result1)[0].EmailID);
-                                        window.location.href = "/";
-                                        this.props.closePopup();
-                                    }
-                                    else {
-                                        console.warn("error" + result1);
-                                        this.setState({ msg: "unable to login", variant: "danger", error: !this.state.error })
-                                    }
-                                })
-                            }).catch(() => console.log("Can’t access api response. Blocked by browser?"))
-                        }
-                    }
-                    else {
-                        this.setState({ msg: "unable to register", variant: "danger", error: !this.state.error })
-                    }
-                })
-            }).catch(() => console.log("Can’t access api response. Blocked by browser?"))
+                var user = fire.auth().currentUser;
+                user.sendEmailVerification().then(function () {
+                    console.warn("please check mail to verify");
+                }).catch(function (error) {
+                    console.warn("mail not sent");
+                });
+
+                localStorage.setItem("login", result.user);
+                localStorage.setItem("name", result.user.email);
+                localStorage.setItem("email", result.user.email);
+                window.location.href = "/";
+                this.props.closePopup();
+            }).catch((err) => {
+                this.setState({ msg: "Unable to Sign Up", variant: "danger" });
+                this.setState({ error: !this.state.error });
+            })
         }
     }
 
@@ -151,6 +106,20 @@ class Login extends Component {
         this.props.term === "login" ?
             this.setState({ show: false })
             : this.setState({ show: true })
+
+
+        if (this.state.fire === "YES") {
+            fire.auth().onAuthStateChanged(user => {
+                // if (!user) {
+                //     window.location.href = "/";
+                // } else {
+                //     this.setState({ user });
+                // }
+            });
+        }
+        else {
+            this.setState({ fire: null })
+        }
     }
 
     responseFacebook = (res) => {
@@ -211,7 +180,10 @@ class Login extends Component {
                                     <input type='password' className="form-control" placeholder="Password" onChange={(e) => { this.setState({ password: e.target.value }) }} />
                                     <span className="spanError">{this.state.uPWD}</span><br />
 
-                                    <Button variant="secondary" onClick={() => this.login()}>Sign In</Button><br />
+                                    <Button variant="secondary" onClick={() => this.login()}>Sign In</Button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Link to="/Recoverpwd" onClick={() => this.HandelModel()}>Forgot your password?</Link>
+                                    <br />
 
                                     <span>New to Real 8?</span>&nbsp;&nbsp;
                                     <Button variant="secondary" onClick={() => this.setState({ isregister: true, error: false })}>Create Account</Button>

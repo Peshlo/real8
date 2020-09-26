@@ -1,5 +1,6 @@
 import { Container, Button, Alert } from 'react-bootstrap'
 import React, { Component } from 'react';
+import fire from './fire.js'
 
 class UserAccount extends Component {
     constructor() {
@@ -13,8 +14,17 @@ class UserAccount extends Component {
             msg: "",
             variant: "",
             error: false,
-            dltAccount: false
+            dltAccount: false,
+            user: fire.auth().currentUser
+            //working:false
         }
+    }
+
+    componentDidMount(){
+        fire.auth().onAuthStateChanged(user => {
+        if (user) {
+            this.setState({ user });
+        }})
     }
 
     changePassword() {
@@ -28,16 +38,30 @@ class UserAccount extends Component {
             this.setState({ msg: "Password must not be same", variant: "danger", error: !this.state.error })
         }
         else {
-            this.setState({ msg: "Under process", variant: "primary", error: !this.state.error, newPwdError: "", crPwdError: "", })
+            if (this.state.newPwd.trim()!=="") {
+                //this.setState({ working: true });
+                fire.auth().currentUser.updatePassword(this.state.newPwd.trim()).then(() => {
+                    this.setState({ msg: "Password Changed Successfully", variant: "success", error: !this.state.error, newPwdError: "", crPwdError: "" })
+                }, error => {
+                    this.setState({ msg: error.message,variant: "danger", error: !this.state.error, newPwdError: "", crPwdError: "" });
+                });
+            }            
+            //this.setState({ msg: "Under process", variant: "primary", error: !this.state.error, newPwdError: "", crPwdError: "", })
         }
     }
 
     deleteAccount() {
         if (this.state.curPwd.trim().length < 8) {
-            this.setState({ crPwdError: "Current password can't be blank or less than 8 characters", newPwdError: "" });
+            this.setState({ crPwdError: "Current password can't be blank or less than 8 characters", newPwdError: "" })
         }
         else {
-            this.setState({ msg: "Under process", variant: "primary", error: !this.state.error, crPwdError: "", })
+            var user = fire.auth().currentUser;
+            user.delete().then(function () {
+                localStorage.clear();
+                window.location.href = "/";
+            }).catch(function (error) {
+                this.setState({ msg: "Under process", variant: "danger", error: !this.state.error, newPwdError: "", crPwdError: "", })
+            });
         }
     }
 

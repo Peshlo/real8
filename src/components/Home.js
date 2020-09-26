@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Card from "react-bootstrap/Card";
-import Videocall from './videocall.js'
-import { Button } from 'react-bootstrap'
-import Login from './Login.js'
+import Videocall from './videocall.js';
+import { Button } from 'react-bootstrap';
+import Login from './Login.js';
 
 class Home extends Component {
     constructor() {
