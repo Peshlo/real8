@@ -34,7 +34,7 @@ class Login extends Component {
         if (this.state.email.trim() !== "" && this.state.password !== "") {
             fire.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password).then((result) => {
                 localStorage.setItem("login", result.user);
-                localStorage.setItem("name", result.user.email);
+                localStorage.setItem("name", result.user.displayName);
                 localStorage.setItem("email", result.user.email);
                 this.setState({ fire: "YES" })
                 window.location.href = "/";
@@ -69,23 +69,25 @@ class Login extends Component {
             this.setState({ rpwd: "Password can't be blank" });
         }
         else {
-            this.props.closePopup()
-
             fire.auth().createUserWithEmailAndPassword(this.state.email.trim(), this.state.password).then((result) => {
-                this.setState({ fire: "YES" })
-
                 var user = fire.auth().currentUser;
-                user.sendEmailVerification().then(function () {
-                    console.warn("please check mail to verify");
-                }).catch(function (error) {
-                    console.warn("mail not sent");
-                });
+                user.updateProfile({
+                    displayName: this.state.name.trim()
+                }).then(function () {
+                    user.sendEmailVerification().then(function () {
+                        this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", variant: "primary", error: !this.state.error })
+                    }).catch(function (error) {
 
-                localStorage.setItem("login", result.user);
-                localStorage.setItem("name", result.user.email);
-                localStorage.setItem("email", result.user.email);
-                window.location.href = "/";
-                this.props.closePopup();
+                    });
+                }).catch(function (error) {
+                });
+                // localStorage.setItem("login", result.user);
+                // localStorage.setItem("name", result.user.email);
+                // localStorage.setItem("email", result.user.email);
+                // window.location.href = "/";
+                // this.props.closePopup();
+                this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", variant: "primary", error: !this.state.error })
+                this.setState({name:"",email:"",password:""})
             }).catch((err) => {
                 this.setState({ msg: "Unable to Sign Up", variant: "danger" });
                 this.setState({ error: !this.state.error });
@@ -110,11 +112,6 @@ class Login extends Component {
 
         if (this.state.fire === "YES") {
             fire.auth().onAuthStateChanged(user => {
-                // if (!user) {
-                //     window.location.href = "/";
-                // } else {
-                //     this.setState({ user });
-                // }
             });
         }
         else {
