@@ -27,6 +27,7 @@ class Login extends Component {
             rpwd: "",
             ruser: "",
             show: false,
+            showdiv: false,
         }
     }
 
@@ -75,7 +76,7 @@ class Login extends Component {
                     displayName: this.state.name.trim()
                 }).then(function () {
                     user.sendEmailVerification().then(function () {
-                        this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", variant: "primary", error: !this.state.error })
+                        this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
                     }).catch(function (error) {
 
                     });
@@ -86,8 +87,8 @@ class Login extends Component {
                 // localStorage.setItem("email", result.user.email);
                 // window.location.href = "/";
                 // this.props.closePopup();
-                this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", variant: "primary", error: !this.state.error })
-                this.setState({name:"",email:"",password:""})
+                this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
+                this.setState({ name: "", email: "", password: "" })
             }).catch((err) => {
                 this.setState({ msg: "Unable to Sign Up", variant: "danger" });
                 this.setState({ error: !this.state.error });
@@ -98,6 +99,26 @@ class Login extends Component {
     HandelModel() {
         this.props.closePopup();
     }
+
+    handleReset = () => {
+        Array.from(document.querySelectorAll("input")).forEach(
+          input => (input.value = "")
+        );
+        this.setState({
+          itemvalues: [{}]
+        });
+        this.setState({ isregister: true, error: false })
+      };
+
+      handleResetsign = () => {
+        Array.from(document.querySelectorAll("input")).forEach(
+          input => (input.value = "")
+        );
+        this.setState({
+          itemvalues: [{}]
+        });
+        this.setState({ isregister: false, error: false })
+      };
 
     //code for fb
     componentClicked = () => {
@@ -133,76 +154,89 @@ class Login extends Component {
             <Modal centered show="true" onHide={() => this.HandelModel()}>
                 <Modal.Header closeButton>
                     {
-                        !this.state.isregister ? "Sign in" : "Create an account"
+                        !this.state.showdiv ?
+                            <div>
+                                {
+                                    !this.state.isregister ? "Sign in" : "Create an account"
+                                }
+                            </div>
+                            :
+                            null
                     }
                 </Modal.Header>
                 <Modal.Body>
                     <Alert variant={this.state.variant} show={this.state.error}>
                         {this.state.msg}
                     </Alert>
-
                     {
-                        this.props.term === "login" ?
+                        !this.state.showdiv ?
                             <div>
-                                <div>
-                                    To protect your safety and the safety of the community you need to continue with an account (learn more). By continuing, you agree to our Community Guidelines, Terms and Privacy Policy.
+                                {
+                                    this.props.term === "login" ?
+                                        <div>
+                                            <div>
+                                                To protect your safety and the safety of the community you need to continue with an account (learn more). By continuing, you agree to our Community Guidelines, Terms and Privacy Policy.
                                 </div><br />
+                                        </div>
+                                        :
+                                        null
+                                }
+
+                                <FacebookLogin
+                                    appId="741321949772640"
+                                    autoLoad={false}
+                                    fields="name,email,picture"
+                                    onClick={this.componentClicked}
+                                    callback={this.responseFacebook}
+                                    cssClass="roundButton btnfb btn-block"
+                                    icon={<FontAwesomeIcon icon={faFacebookSquare} />}
+                                    textButton="&nbsp;&nbsp;Continue with Facebook"
+                                />
+                                <br />
+
+                                <Button className="roundButton btn btn-block" size="lg" block onClick={() => this.setState({ show: true })}>Continue with email</Button>
+                                <br />
+
+                                {
+                                    this.state.show ?
+                                        !this.state.isregister ?
+                                            <div>
+                                                <input type='text' className="form-control" placeholder="Email" onChange={(e) => { this.setState({ email: e.target.value }) }} />
+                                                <span className="spanError">{this.state.uEmail}</span><br />
+
+                                                <input type='password' className="form-control" placeholder="Password" onChange={(e) => { this.setState({ password: e.target.value }) }} />
+                                                <span className="spanError">{this.state.uPWD}</span><br />
+
+                                                <Button variant="secondary" onClick={() => this.login()}>Sign In</Button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Link to="/Recoverpwd" onClick={() => this.HandelModel()}>Forgot your password?</Link>
+                                                <br />
+
+                                                <span>New to Real 8?</span>&nbsp;&nbsp;
+                                    <Button variant="secondary" onClick={() => this.handleReset()}>Create Account</Button>
+                                            </div>
+                                            :
+                                            <div>
+                                                <input type='text' className="form-control" placeholder="Name" onChange={(e) => { this.setState({ name: e.target.value }) }} />
+                                                <span className="spanError">{this.state.ruser}</span><br />
+
+                                                <input type='text' className="form-control" placeholder="Email" onChange={(e) => { this.setState({ email: e.target.value }) }} />
+                                                <span className="spanError">{this.state.remil}</span><br />
+
+                                                <input type='password' className="form-control" placeholder="Password" onChange={(e) => { this.setState({ password: e.target.value }) }} />
+                                                <span className="spanError">{this.state.rpwd}</span><br />
+
+                                                <Button variant="secondary" onClick={() => this.register()}>Create Account</Button><br />
+
+                                                <span>Already have an account?</span>&nbsp;&nbsp;
+                                    <Button variant="secondary" onClick={() => this.handleResetsign()}>Sign In</Button>
+                                            </div>
+
+                                        : null
+                                }
                             </div>
                             :
                             null
-                    }
-
-                    <FacebookLogin
-                        appId="741321949772640"
-                        autoLoad={false}
-                        fields="name,email,picture"
-                        onClick={this.componentClicked}
-                        callback={this.responseFacebook}
-                        cssClass="roundButton btnfb btn-block"
-                        icon={<FontAwesomeIcon icon={faFacebookSquare} />}
-                        textButton="&nbsp;&nbsp;Continue with Facebook"
-                    />
-                    <br />
-
-                    <Button className="roundButton btn btn-block" size="lg" block onClick={() => this.setState({ show: true })}>Continue with email</Button>
-                    <br />
-
-                    {
-                        this.state.show ?
-                            !this.state.isregister ?
-                                <div>
-                                    <input type='text' className="form-control" placeholder="Email" onChange={(e) => { this.setState({ email: e.target.value }) }} />
-                                    <span className="spanError">{this.state.uEmail}</span><br />
-
-                                    <input type='password' className="form-control" placeholder="Password" onChange={(e) => { this.setState({ password: e.target.value }) }} />
-                                    <span className="spanError">{this.state.uPWD}</span><br />
-
-                                    <Button variant="secondary" onClick={() => this.login()}>Sign In</Button>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <Link to="/Recoverpwd" onClick={() => this.HandelModel()}>Forgot your password?</Link>
-                                    <br />
-
-                                    <span>New to Real 8?</span>&nbsp;&nbsp;
-                                    <Button variant="secondary" onClick={() => this.setState({ isregister: true, error: false })}>Create Account</Button>
-                                </div>
-                                :
-                                <div>
-                                    <input type='text' className="form-control" placeholder="Name" onChange={(e) => { this.setState({ name: e.target.value }) }} />
-                                    <span className="spanError">{this.state.ruser}</span><br />
-
-                                    <input type='text' className="form-control" placeholder="Email" onChange={(e) => { this.setState({ email: e.target.value }) }} />
-                                    <span className="spanError">{this.state.remil}</span><br />
-
-                                    <input type='password' className="form-control" placeholder="Password" onChange={(e) => { this.setState({ password: e.target.value }) }} />
-                                    <span className="spanError">{this.state.rpwd}</span><br />
-
-                                    <Button variant="secondary" onClick={() => this.register()}>Create Account</Button><br />
-
-                                    <span>Already have an account?</span>&nbsp;&nbsp;
-                                    <Button variant="secondary" onClick={() => this.setState({ isregister: false, error: false })}>Sign In</Button>
-                                </div>
-
-                            : null
                     }
                 </Modal.Body>
             </Modal>
