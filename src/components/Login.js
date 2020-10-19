@@ -90,7 +90,7 @@ class Login extends Component {
                 this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
                 this.setState({ name: "", email: "", password: "" })
             }).catch((err) => {
-                this.setState({ msg: "Unable to Sign Up", variant: "danger" });
+                this.setState({ msg: "Sign up- "+err, variant: "danger" });
                 this.setState({ error: !this.state.error });
             })
         }
