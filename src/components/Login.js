@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Button, Alert, Modal } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons'
-import FacebookLogin from 'react-facebook-login'
-import fire from "./fire.js";
+import { fire, provider } from "./fire.js";
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -17,7 +16,6 @@ class Login extends Component {
             password: "",
             name: "",
             user: null,
-            fire: null,
 
             //error handel
             uEmail: "",
@@ -72,25 +70,17 @@ class Login extends Component {
         else {
             fire.auth().createUserWithEmailAndPassword(this.state.email.trim(), this.state.password).then((result) => {
                 var user = fire.auth().currentUser;
-                user.updateProfile({
-                    displayName: this.state.name.trim()
-                }).then(function () {
-                    user.sendEmailVerification().then(function () {
-                        this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
-                    }).catch(function (error) {
-
-                    });
-                }).catch(function (error) {
-                });
-                // localStorage.setItem("login", result.user);
-                // localStorage.setItem("name", result.user.email);
-                // localStorage.setItem("email", result.user.email);
-                // window.location.href = "/";
-                // this.props.closePopup();
-                this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
-                this.setState({ name: "", email: "", password: "" })
-            }).catch((err) => {
-                this.setState({ msg: "Sign up- "+err, variant: "danger" });
+                    user.updateProfile({
+                        displayName: this.state.name.trim()
+                    }).then(function () {
+                        user.sendEmailVerification().then(function () {
+                            this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
+                        }).catch(function (error) {});
+                    }).catch(function (error) {});
+                    this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
+                    this.setState({ name: "", email: "", password: "" })
+            }).catch((er)=>{
+                this.setState({ msg: ""+er.message, variant: "danger" });
                 this.setState({ error: !this.state.error });
             })
         }
@@ -102,28 +92,23 @@ class Login extends Component {
 
     handleReset = () => {
         Array.from(document.querySelectorAll("input")).forEach(
-          input => (input.value = "")
+            input => (input.value = "")
         );
         this.setState({
-          itemvalues: [{}]
+            itemvalues: [{}]
         });
         this.setState({ isregister: true, error: false })
-      };
+    };
 
-      handleResetsign = () => {
+    handleResetsign = () => {
         Array.from(document.querySelectorAll("input")).forEach(
-          input => (input.value = "")
+            input => (input.value = "")
         );
         this.setState({
-          itemvalues: [{}]
+            itemvalues: [{}]
         });
         this.setState({ isregister: false, error: false })
-      };
-
-    //code for fb
-    componentClicked = () => {
-        console.log(localStorage.getItem("login"));
-    }
+    };
 
     componentDidMount() {
         this.props.term === "login" ?
@@ -131,24 +116,26 @@ class Login extends Component {
             : this.setState({ show: true })
 
 
-        if (this.state.fire === "YES") {
-            fire.auth().onAuthStateChanged(user => {
-            });
-        }
-        else {
-            this.setState({ fire: null })
-        }
+        fire.auth().onAuthStateChanged(user => {
+        });
     }
 
-    responseFacebook = (res) => {
-        if (res.status !== "unknown") {
-            localStorage.setItem("name", res.name);
-            localStorage.setItem("email", res.email);
-            localStorage.setItem("login", res);
-            window.location.href = "/";
-        }
+    facebookLogin() {
+        fire.auth().signInWithPopup(provider).then((result, error) => {
+            if (error) {
+                this.setState({ msg: error.message, variant: "danger" });
+                this.setState({ error: !this.state.error });
+            }
+            else {
+                localStorage.setItem("login", result.user);
+                localStorage.setItem("name", result.user.displayName);
+                localStorage.setItem("email", result.user.email);
+                window.location.href = "/";
+                this.props.closePopup();
+            }
+        });
     }
-    //end code for fb
+
     render() {
         return (
             <Modal centered show="true" onHide={() => this.HandelModel()}>
@@ -182,16 +169,9 @@ class Login extends Component {
                                         null
                                 }
 
-                                <FacebookLogin
-                                    appId="741321949772640"
-                                    autoLoad={false}
-                                    fields="name,email,picture"
-                                    onClick={this.componentClicked}
-                                    callback={this.responseFacebook}
-                                    cssClass="roundButton btnfb btn-block"
-                                    icon={<FontAwesomeIcon icon={faFacebookSquare} />}
-                                    textButton="&nbsp;&nbsp;Continue with Facebook"
-                                />
+                                <Button className="roundButton btnfb btn-block" size="lg" block onClick={() => this.facebookLogin()}>
+                                    <FontAwesomeIcon icon={faFacebookSquare} />&nbsp;&nbsp;Continue with Facebook</Button>
+
                                 <br />
 
                                 <Button className="roundButton btn btn-block" size="lg" block onClick={() => this.setState({ show: true })}>Continue with email</Button>

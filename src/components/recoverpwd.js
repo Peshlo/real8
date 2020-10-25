@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Container,Alert } from 'react-bootstrap'
 import Spinner from 'react-spinkit';
-import fire from './fire.js'
+import {fire} from './fire.js'
 import {Link} from 'react-router-dom'
 
 export default class Recoverpwd extends Component {

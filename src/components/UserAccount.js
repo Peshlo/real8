@@ -1,6 +1,6 @@
 import { Container, Button, Alert } from 'react-bootstrap'
 import React, { Component } from 'react';
-import fire from './fire.js'
+import {fire} from './fire.js'
 
 class UserAccount extends Component {
     constructor() {

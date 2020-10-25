@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase';
  
  // Your web app's Firebase configuration
  var firebaseConfig = {
@@ -13,5 +13,6 @@ import firebase from 'firebase';
   };
   // Initialize Firebase
   const fire =  firebase.initializeApp(firebaseConfig);
+  var provider = new firebase.auth.FacebookAuthProvider();
 
-  export default fire;
+  export {fire,provider};
