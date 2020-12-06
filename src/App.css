@@ -416,15 +416,6 @@ h1
     line-height: 1.5;
   }
 
-    @media screen and (max-width: 480px) {
-
-      #banner .inner {
-        max-width: 90%;
-        width: 90%;
-      }
-
-    }
-
   #banner h1 {
     font-size: 2em;
     margin: 0 0 1em 0;
@@ -466,7 +457,9 @@ h1
       #banner br {
         display: none;
       }
-
+      #one {
+      padding: 4em 0 2em 0;
+    }
   }
 
   @media screen and (max-width: 736px) {
@@ -478,6 +471,9 @@ h1
       #banner h1 {
         font-size: 1.75em;
       }
+      #one {
+      padding: 2em 0 0.1em 0;
+    }
 
   }
 
@@ -490,6 +486,11 @@ h1
       #banner ul {
         margin-top: 1em;
       }
+      #banner .inner {
+        max-width: 90%;
+        width: 90%;
+      }
+
 
   }
 
@@ -503,23 +504,7 @@ h1
   padding: 6em 0 4em 0;
 }
 
-  @media screen and (max-width: 980px) {
-
-    #one {
-      padding: 4em 0 2em 0;
-    }
-
-  }
-
-  @media screen and (max-width: 736px) {
-
-    #one {
-      padding: 2em 0 0.1em 0;
-    }
-
-  }
-
-  #divvideo
+#divvideo
   {
     background-color: antiquewhite;
     padding: 3%;
