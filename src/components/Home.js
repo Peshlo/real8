@@ -41,7 +41,7 @@ class Home extends Component {
                         <h2 className="textonimg2">
                             {
                                 localStorage.getItem("login") ?
-                                    "Hi! " + localStorage.getItem("name Welcome to Real8") : ""
+                                    "Hi! " + localStorage.getItem("name") : ""
                             }
                         </h2>
                         <div className="">
