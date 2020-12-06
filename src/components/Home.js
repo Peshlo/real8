@@ -58,10 +58,10 @@ class Home extends Component {
                                                     </div>
                                                 </div>
                                         }
-
+                                        
                                     </div>
                                     :
-                                    <div className="receiverDiv">
+                                    <div className="receiverDiv"><img src=""/>
                                         <div className="innerDiv">
                                             <Button className="connectbtn btncoonectbefore" variant="outline-light" onClick={this.togglePopup.bind(this)}>Connect</Button>
                                         </div>
