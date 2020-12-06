@@ -49,7 +49,7 @@
   will-change: transform; 
   /* top: 0px; 
   left: 0px;  */
-  transform: translate3d(-180px, 25px, 0px);
+  transform: translate3d(-25px, 25px, 0px);
 }
 
 
@@ -57,7 +57,7 @@
   /* display: none; */
   position: fixed;
   background-color: #b14151;
-  min-width: 160px;
+  min-width: 97px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   border: 2px solid #d86d7d;
