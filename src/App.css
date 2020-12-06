@@ -432,74 +432,6 @@ h1
     opacity: 1;
   }
 
-  @media screen and (max-width: 1680px) {
-
-    #banner {
-      padding: 15em;
-    }
-
-  }
-
-  @media screen and (max-width: 1280px) {
-
-    #banner {
-      padding: 8em 0 6em 0;
-    }
-
-  }
-
-  @media screen and (max-width: 980px) {
-
-    #banner {
-      padding: 12em 0 10em 0;
-    }
-
-      #banner br {
-        display: none;
-      }
-      #one {
-      padding: 4em 0 2em 0;
-    }
-  }
-
-  @media screen and (max-width: 736px) {
-
-    #banner {
-      padding: 4em 0 2em 0;
-    }
-
-      #banner h1 {
-        font-size: 1.75em;
-      }
-      #one {
-      padding: 2em 0 0.1em 0;
-    }
-
-  }
-
-  @media screen and (max-width: 480px) {
-
-    #banner {
-      padding: 5em 0 3em 0;
-    }
-
-      #banner ul {
-        margin-top: 1em;
-      }
-      #banner .inner {
-        max-width: 90%;
-        width: 90%;
-      }
-     .receiverDiv {width:100%;
-	  height: 325px;
-          margin-top: -45px;
-	  }
-
-	  .innerDiv {
-    margin: 45% auto;
-}
-  }
-
 /* Main */
 
 #main {
@@ -575,3 +507,77 @@ h1
   margin-bottom:none ;
     padding: 4em 0 2em 0;
 }
+
+  @media screen and (max-width: 1680px) {
+
+    #banner {
+      padding: 15em;
+    }
+
+  }
+
+  @media screen and (max-width: 1280px) {
+
+    #banner {
+      padding: 8em 0 6em 0;
+    }
+
+  }
+
+  @media screen and (max-width: 980px) {
+
+    #banner {
+      padding: 12em 0 10em 0;
+    }
+
+      #banner br {
+        display: none;
+      }
+      #one {
+      padding: 4em 0 2em 0;
+    }
+      .receiverDiv {
+       width:80%;
+       height: 500px;
+       margin-top: 0 auto 50px;
+	  }
+  }
+
+  @media screen and (max-width: 736px) {
+
+    #banner {
+      padding: 4em 0 2em 0;
+    }
+
+      #banner h1 {
+        font-size: 1.75em;
+      }
+      #one {
+      padding: 2em 0 0.1em 0;
+    }
+
+  }
+
+  @media screen and (max-width: 480px) {
+
+    #banner {
+      padding: 5em 0 3em 0;
+    }
+
+      #banner ul {
+        margin-top: 1em;
+      }
+      #banner .inner {
+        max-width: 90%;
+        width: 90%;
+      }
+     .receiverDiv {
+	  width:100%;
+	  height: 325px;
+          margin-top: -45px;
+	  }
+
+	  .innerDiv {
+    margin: 45% auto;
+}
+  }
