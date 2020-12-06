@@ -238,18 +238,18 @@ h1
 
 
 .connectbtn {
-  width: 120px !important;
-  height: 50px !important;
+  /*width: 120px !important;
+  height: 50px !important;*/
   color: pink !important;
   background: blueviolet !important;
-  border-radius: 10px !important;
+  /*border-radius: 10px !important;*/
 }
 .connectbtn1 {
  /* width: 120px !important;
   height: 50px !important;*/
   color: pink !important;
   background: blueviolet !important;
-  border-radius: 10px !important;
+  /*border-radius: 10px !important;*/
 }
 
 .connectbtntemp {
@@ -257,7 +257,7 @@ h1
   height: 50px !important;*/
   color: pink !important;
   background:  indianred !important;
-  border-radius: 10px !important;
+  /*border-radius: 10px !important;*/
 }
 
 .fltright
