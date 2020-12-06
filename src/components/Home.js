@@ -26,9 +26,7 @@ class Home extends Component {
                     <h2 className="textonimg">
                         Relate with love
                                         </h2>
-                    <p className="textonimg1">Our purpose is to help adults build intimacy <br>
-                    </br>that embodies love's most profound qualities <br>
-                    </br>throughout all stages of life</p>
+                    <p className="textonimg1">Our purpose is to help adults build intimacy that embodies love's most profound qualities throughout all stages of life</p>
 
                 </section>
                 {
