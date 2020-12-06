@@ -66,10 +66,7 @@ class Home extends Component {
                                             <Button style={{display:"none"}} className="connectbtn btncoonectbefore" variant="outline-light" onClick={this.togglePopup.bind(this)}>Connect</Button>
                                         </div>
                                     </div>
-                            }
-                            <div className="bg-text">
-                            <Button className="connectbtntemp" variant="outline-light">Connect</Button>
-                            </div>
+                               }
                         </div>
                     </div>
                 </section>
