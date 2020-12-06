@@ -63,7 +63,7 @@ class Home extends Component {
                                     :
                                     <div className="receiverDiv">
                                         <div className="innerDiv">
-                                            <Button style={{display:"none"}} className="connectbtn btncoonectbefore" variant="outline-light" onClick={this.togglePopup.bind(this)}>Connect</Button>
+                                            <Button className="connectbtn btncoonectbefore" variant="outline-light" onClick={this.togglePopup.bind(this)}>Connect</Button>
                                         </div>
                                     </div>
                                }
