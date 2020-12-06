@@ -561,8 +561,8 @@ h1
   @media screen and (max-width: 480px) {
 
     #banner {
-      padding: 6em 0 0 0;
-      background-size: contain;
+      /*padding: 5.5em 0 0 0;
+      background-size: contain;*/
     }
     #banner h2 {
 	  font-size:36px;
