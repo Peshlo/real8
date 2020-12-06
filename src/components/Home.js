@@ -61,7 +61,7 @@ class Home extends Component {
                                         
                                     </div>
                                     :
-                                    <div className="receiverDiv"><img src="./Images/videocall-blur.jpg"/>
+                                    <div className="receiverDiv"><img src="src/Images/videocall-blur.jpg"/>
                                         <div className="innerDiv">
                                             <Button className="connectbtn btncoonectbefore" variant="outline-light" onClick={this.togglePopup.bind(this)}>Connect</Button>
                                         </div>
