@@ -40,7 +40,8 @@
 }
 
 /* css added on 5 Aug 2020 */
-
+.form-inline {
+    padding: 1.5rem;}
 .dropdown {
   /* position: relative; */
   display: inline-block;
