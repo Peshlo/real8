@@ -177,8 +177,8 @@ p {
   -webkit-filter: blur(6px);*/
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
-  width: 60%;
+  background-size: contain;
+  width: 59%;
   /*border-radius: 2.5rem;*/
   margin: 0 auto 50px;
   height: 500px;
