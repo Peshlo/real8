@@ -54,7 +54,7 @@ class Home extends Component {
                                                 <Videocall />
                                                 : <div className="receiverDiv">
                                                     <div className="innerDiv">
-                                                        <Button style={{display:"none"}} className="connectbtn" variant="outline-light" onClick={() => this.setState({ showVideo: true })}>Connect</Button>
+                                                        <Button className="connectbtn" variant="outline-light" onClick={() => this.setState({ showVideo: true })}>Connect</Button>
                                                     </div>
                                                 </div>
                                         }
