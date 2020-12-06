@@ -73,11 +73,11 @@ class Login extends Component {
                     user.updateProfile({
                         displayName: this.state.name.trim()
                     }).then(function () {
-                        user.sendEmailVerification().then(function () {
-                            this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
-                        }).catch(function (error) {});
+                    user.sendEmailVerification().then(function () {
+                    this.setState({ fire: "YES", msg: "Sign up successful. Kindly check inbox and verify your email to continue.", showdiv: true, variant: "primary", error: !this.state.error })
                     }).catch(function (error) {});
-                    this.setState({ fire: "YES", msg: "Sign Up successfully. Check your mail.", showdiv: true, variant: "primary", error: !this.state.error })
+                    }).catch(function (error) {});
+                    this.setState({ fire: "YES", msg: "Sign up successful. Kindly check inbox and verify your email to continue.", showdiv: true, variant: "primary", error: !this.state.error })
                     this.setState({ name: "", email: "", password: "" })
             }).catch((er)=>{
                 this.setState({ msg: ""+er.message, variant: "danger" });
