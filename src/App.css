@@ -44,11 +44,11 @@
 .dropdown {
   /* position: relative; */
   display: inline-block;
-  position: fixed; 
+  /*position: fixed;*/
   will-change: transform; 
   /* top: 0px; 
   left: 0px;  */
-  transform: translate3d(-25px, 25px, 0px);
+  transform: translate3d(-68px, 25px, 0px);
 }
 
 
