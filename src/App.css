@@ -174,8 +174,8 @@ p {
   position: relative;
   /* background: radial-gradient(circle,#FF9892 0%,#D7544C 100%); */
   background-image: url(Images/Videocall.jpg);
-  filter: blur(8px);
-  -webkit-filter: blur(6px);
+ /* filter: blur(8px);
+  -webkit-filter: blur(6px);*/
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
