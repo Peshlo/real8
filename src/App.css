@@ -187,9 +187,9 @@ p {
 }
 
 .innerDiv{
-  width: 500px;
+  width: 100%;
   position: absolute;
-  margin: 250px 0px;
+  margin: 45% auto;
 }
 
 .callerDiv {
@@ -245,16 +245,16 @@ h1
   border-radius: 10px !important;
 }
 .connectbtn1 {
-  width: 120px !important;
-  height: 50px !important;
+ /* width: 120px !important;
+  height: 50px !important;*/
   color: pink !important;
   background: blueviolet !important;
   border-radius: 10px !important;
 }
 
 .connectbtntemp {
-  width: 120px !important;
-  height: 50px !important;
+  /*width: 120px !important;
+  height: 50px !important;*/
   color: pink !important;
   background:  indianred !important;
   border-radius: 10px !important;
