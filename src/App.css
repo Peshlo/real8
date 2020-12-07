@@ -173,7 +173,7 @@ p {
 .receiverDiv { 
   position: relative;
   /* background: radial-gradient(circle,#FF9892 0%,#D7544C 100%); */
-  background-image: url(Images/Videocall.jpg);
+  background-image: url(Images/videocall-blur.jpg);
  /* filter: blur(8px);
   -webkit-filter: blur(6px);*/
   background-position: center;
