@@ -42,7 +42,7 @@ class Home extends Component {
                                     "Hi! " + localStorage.getItem("name") : ""
                             }
                         </h2>
-                        <div className="">
+                        <div className=""><img src="../Images/videocall-blur.jpg"/>
                             {
                                 localStorage.getItem("login") ?
                                     // <Videocall/>
