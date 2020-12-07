@@ -162,7 +162,7 @@ class Login extends Component {
                                     this.props.term === "login" ?
                                         <div>
                                             <div>
-                                                To protect your safety and the safety of the community you need to continue with an account (learn more). By continuing, you agree to our Community Guidelines, Terms and Privacy Policy.
+                                                To protect your safety and the safety of the community you need to continue with an account. By continuing, you agree to our Community Guidelines, Terms and Privacy Policy.
                                 </div><br />
                                         </div>
                                         :
