@@ -136,7 +136,7 @@ class videocall extends Component {
               </div>
             </div>
             <div className="">
-            <!--<Button variant="outline-light" className="connectbtn1" onClick={this.createOffer}>Call</Button>&nbsp;&nbsp;&nbsp;&nbsp;--->
+            <!----<Button variant="outline-light" className="connectbtn1" onClick={this.createOffer}>Call</Button>&nbsp;&nbsp;&nbsp;&nbsp;--->
             <Button variant="outline-light" className="connectbtn1"onClick={this.createAnswer}>Match up</Button>
             </div>
           </div>
