@@ -50,72 +50,46 @@ class Novbar extends Component {
     render() {
         return (
             <div>
-                 <Navbar collapseOnSelect expand="lg" className="navbar">
-                    <Navbar.Brand href="#"><img src={logo} alt="Real8" /> </Navbar.Brand>
+                <Navbar collapseOnSelect expand="sm" className="navbar">
+                    <Navbar.Brand href="#"><img src={logo} alt="Real8"/> </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav navbar" />
                     <Navbar.Collapse id="responsive-navbar-nav navbar">
                         <Nav className="ml-auto">
-                        <Nav.Link href="#">
-                                <Link className="menulink" to="/">Home</Link>
-                            </Nav.Link>
-                            <Nav.Link href="#">
-                                <Link className="menulink"  to="/Background">About Us</Link>
-                            </Nav.Link>
-                            <Nav.Link href="#"><Link className="menulink" to="/Services">How To Use</Link> </Nav.Link>
+                            <Nav.Link href="#"><Link className="menulink" to="/">Home</Link></Nav.Link>
+                            <Nav.Link href="#"><Link className="menulink"  to="/Background">About Us</Link></Nav.Link>
+                            <Nav.Link href="#"><Link className="menulink" to="/Services">How To Use</Link></Nav.Link>
                             <Nav.Link href="#"> <Link className="menulink" to="/Faq">Faq</Link></Nav.Link>
-                            {/* <Nav.Link href="#"><Link className="menulink" to="/Testimonials">Testimonials</Link></Nav.Link> */}
                             <Nav.Link href="#"><Link className="menulink" to="/GetInTouch">Get In Touch</Link></Nav.Link>
-                            {/* <Nav.Link href="#"><Link className="menulink" to="/Search"><FontAwesomeIcon icon={faSearch} /></Link></Nav.Link> */}
                             <Form inline>
                             {
-                                
-                                localStorage.getItem("login") ?
-                                    // 
-                                    <div>
-                                        <ReactTooltip type="dark" effect="float" />
-                                        <FontAwesomeIcon onClick={this.showMenu}
-                                            data-tip={localStorage.getItem("name")}
-                                            color="#aa6362"
-                                            style={{cursor:"pointer"}}
-                                            className="fa-3x" icon={faUserCircle} />
-                                    </div>
-                                    : <Button variant="outline-light" onClick={this.togglePopup.bind(this)}>Login</Button>
+                            localStorage.getItem("login") ?
+                            <div>
+                                <ReactTooltip type="dark" effect="float" />
+                                <FontAwesomeIcon onClick={this.showMenu} data-tip={localStorage.getItem("name")} color="#aa6362" style={{cursor:"pointer"}} className="fa-3x" icon={faUserCircle} />
+                            </div>
+                            : <Button variant="outline-light" onClick={this.togglePopup.bind(this)}>Login</Button>
                             }
-
-
                             {
-                                this.state.showMenu
-                                    ? (
-                                        <div className="dropdown"
-                                            ref={(element) => {
-                                                this.dropdownMenu = element;
-                                            }}
-                                        >
-                                            <div className="dropdown-content">
-                                                <Link to="/UserAccount">Account</Link>
-                                                <Link to="/Logout">Sign Out</Link>
-                                            </div>
+                                this.state.showMenu ? (
+                                    <div className="dropdown" ref={(element) => {this.dropdownMenu = element;}}>
+                                        <div className="dropdown-content">
+                                            <Link to="/UserAccount">Account</Link>
+                                            <Link to="/Logout">Sign Out</Link>
                                         </div>
-                                    )
-                                    : (
-                                        null
-                                    )
+                                    </div>
+                                ):( null )
                             }
-                        </Form>
-                    
+                            </Form>
                         </Nav>
-                    
                     </Navbar.Collapse>
                 </Navbar>
-
                 {
                     this.state.showPopup ?
-                        <Login closePopup={this.togglePopup.bind(this)} term={"login"} />
-                        : null
+                    <Login closePopup={this.togglePopup.bind(this)} term={"login"} />
+                    : null
                 }
             </div>
         );
     }
 }
-
 export default Novbar;
