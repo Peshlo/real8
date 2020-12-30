@@ -32,16 +32,14 @@ class Login extends Component {
     login() {
         if (this.state.email.trim() !== "" && this.state.password !== "") {
             fire.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password).then((result) => {
-                localStorage.setItem("login", result.user);
-                localStorage.setItem("name", result.user.displayName);
-                localStorage.setItem("email", result.user.email);
-                this.setState({ fire: "YES" })
-                window.location.href = "/";
-                this.props.closePopup();
+               
+
+                this.checkUserEmailVerified(this,result);
             }).catch((err) => {
                 this.setState({ msg: "Invalid login", variant: "danger" });
                 this.setState({ error: !this.state.error });
             })
+
         }
         else if (this.state.email.trim().length === 0) {
             this.setState({ uEmail: "Email can't be blank" });
@@ -56,7 +54,29 @@ class Login extends Component {
         }
         //this.postLogin();
     }
-
+     checkUserEmailVerified(context,result){
+        fire.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              if (user.emailVerified === false) {
+                context.setState({ msg: "Email Not Verified!", variant: "danger" });
+                context.setState({ error: !context.state.error });
+                
+              } else {
+        
+                // successful login 
+         localStorage.setItem("login", result.user);
+        localStorage.setItem("name", result.user.displayName);
+        localStorage.setItem("email", result.user.email);
+        context.setState({ fire: "YES" })
+        window.location.href = "/";
+        context.props.closePopup();
+              }
+            } else {
+              //  Toast.show({ text: 'Something Wrong!', position: 'bottom', buttonText: 'No user is signed in.' }); 
+            }
+          });
+       
+     }
     register() {
         if (this.state.name.trim().length === 0) {
             this.setState({ ruser: "User can't be blank" });
